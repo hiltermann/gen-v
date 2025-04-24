@@ -273,7 +273,7 @@ def recolor_background_and_upload(
   num_colors = len(background_colors)
   if num_products > num_colors:
     multiplier = round(num_products / num_colors, 0) + 1
-    background_colors = background_colors * multiplier
+    background_colors = background_colors * int(multiplier)
     
   for i, product in enumerate(selected_products):
     resized_image_uri = product['resized_image_uri']
