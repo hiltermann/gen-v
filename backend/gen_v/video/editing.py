@@ -202,12 +202,7 @@ def process_videos_with_overlays_and_text(
   """
   print("process_videos_with_overlays_and_text...")
 
-  def process_video(video: dict[str, str]):
-    """Processes a single video by adding overlays and text.
-
-    Args:
-      video: A dictionary representing a video
-    """
+  for video in videos:
     print(f"process_video: {video}")
     local_video_file_path = gcs.download_file_locally(
         video["gcs_uri"], video["local_file_name"]
