@@ -188,6 +188,7 @@ def process_videos_with_overlays_and_text(
     overlay_text: models.TextInput,
     overlays_uri: str,
     final_uri: str,
+    fade_duration: float = 1,
 ) -> None:
   """Processes videos by adding image and text overlays and uploading to gcs.
 
@@ -197,6 +198,7 @@ def process_videos_with_overlays_and_text(
       overlay_text: A `TextInput` object, defining the text overlay.
       overlays_uri: The GCS URI where intermediate overlays will be stored.
       final_uri: The GCS URI where final videos with overlays will be stored.
+      fade_duration: Duration of the fade in effect in seconds.
 
   Returns:
       None.
@@ -221,7 +223,7 @@ def process_videos_with_overlays_and_text(
         path=f"gs://{gcs_image_overlay_video_path}"
     )
 
-    overlay_image_on_video(local_video_file, images, image_overlay_video)
+    overlay_image_on_video(local_video_file, images, image_overlay_video, fade_duration)
 
     promo_text = models.TextInput(
         text=video["promo_text"],
