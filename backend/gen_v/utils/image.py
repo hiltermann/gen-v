@@ -258,7 +258,7 @@ def recolor_background_and_upload(
     selected_products: list[dict],
     output_uri: str,
     target_color: models.RGBColor,
-    background_color: models.RGBColor,
+    background_colors: list[models.RGBColor],
 ) -> None:
   """Recolors the background of images, uploads them to GCS.
 
@@ -267,9 +267,15 @@ def recolor_background_and_upload(
       selected_products: A list of dictionaries with products.
       output_uri: The gcs path to store recolored images.
       target_color: The color to be replaced
-      background_color: The background color to be used for the new image.
+      background_colors: The list of background colors to be used for the new image.
   """
-  for product in selected_products:
+  num_products = len(selected_products)
+  num_colors = len(background_colors)
+  if num_products > num_colors:
+    multiplier = round(num_products / num_colors, 0) + 1
+    background_colors = background_colors * multiplier
+    
+  for i, product in enumerate(selected_products):
     resized_image_uri = product['resized_image_uri']
 
     local_resized_image_path = storage.download_file_locally(resized_image_uri)
@@ -277,12 +283,12 @@ def recolor_background_and_upload(
     file_name_without_extension, file_extension = file_name.split('.', 1)
     recolored_image_local_path = (
         f'{file_name_without_extension}-recolored-'
-        f'{background_color}.{file_extension}'
+        f'{background_colors[i]}.{file_extension}'
     )
     replace_background_color(
         local_resized_image_path,
         target_color,
-        background_color,
+        background_colors[i],
         recolored_image_local_path,
     )
     recolored_image_uri = f'gs://{output_uri}/{recolored_image_local_path}'
