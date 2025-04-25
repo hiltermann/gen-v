@@ -221,15 +221,22 @@ def process_videos_with_overlays_and_text(
 
     overlay_image_on_video(local_video_file, images, image_overlay_video)
 
-    promo_text = models.TextInput(
-        text=video["promo_text"],
-        font=overlay_text.font,
-        font_size=overlay_text.font_size,
-        start_time=overlay_text.start_time,
-        duration=overlay_text.duration,
-        color=overlay_text.color,
-        position=overlay_text.position,
-    )
+    if overlay_text.text != "":
+        promo_text = overlay_text
+    else:
+        promo_text = models.TextInput(
+            text=video["promo_text"],
+            font=overlay_text.font,
+            font_size=overlay_text.font_size,
+            start_time=overlay_text.start_time,
+            duration=overlay_text.duration,
+            color=overlay_text.color,
+            position=overlay_text.position,
+            margin=overlay_text.margin,
+            text_align=overlay_text.text_align,
+            vertical_align=overlay_text.vertical_align,
+            size=overlay_text.size
+        )
 
     # Define the GCS path for the final video with text overlay.
     final_video_gcs_path = f"{final_uri}/{gcs_file_name}"
