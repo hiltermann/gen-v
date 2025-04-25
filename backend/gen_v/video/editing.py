@@ -143,7 +143,7 @@ def load_text_clips(video_path: str, text_inputs: list[models.TextInput]):
           **text_input.model_dump(exclude={"start_time", "position"})
       ).with_start(text_input.start_time)
       text_clip = text_clip.with_position(text_input.position)
-
+      print("load")
       text_clips.append(text_clip)
     try:
       yield [video] + text_clips
@@ -247,10 +247,7 @@ def process_videos_with_overlays_and_text(
     print(f"Promo text is: {promo_text}")
     print(f"image_video: {image_overlay_video}")
     print(f"final_video: {final_video}")
-    try:
-        add_text_clips_to_video(image_overlay_video, [promo_text], final_video)
-    except:
-        print("An exception occurred")
+    add_text_clips_to_video(image_overlay_video, [promo_text], final_video)
 
       
 
