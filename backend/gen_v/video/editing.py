@@ -221,7 +221,7 @@ def process_videos_with_overlays_and_text(
 
     overlay_image_on_video(local_video_file, images, image_overlay_video)
 
-    if overlay_text.text != "":
+    if overlay_text.text:
         promo_text = overlay_text
     else:
         promo_text = models.TextInput(
@@ -242,6 +242,7 @@ def process_videos_with_overlays_and_text(
     final_video_gcs_path = f"{final_uri}/{gcs_file_name}"
     final_video = models.VideoInput(path=final_video_gcs_path)
 
+    print(f"Promo text is: {promo_text}")
     add_text_clips_to_video(image_overlay_video, [promo_text], final_video)
 
   with concurrent.futures.ThreadPoolExecutor() as executor:
