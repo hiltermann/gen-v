@@ -167,10 +167,12 @@ def add_text_clips_to_video(
   local_video_path = gcs.download_file_locally(input_video.path)
   input_file_name = gcs.get_file_name_from_gcs_url(input_video.path)
   local_output_video_path = f"/content/output_{input_file_name}"
+  print(f"local output path: {local_output_video_path}")
 
   for text in text_inputs:
     local_font_path = gcs.download_file_locally(text.font)
     text.font = local_font_path
+  print(f"text_inputs: {text}")
 
   with load_text_clips(local_video_path, text_inputs) as clips:
     with mp.CompositeVideoClip(clips) as final_clip:
@@ -243,6 +245,8 @@ def process_videos_with_overlays_and_text(
     final_video = models.VideoInput(path=final_video_gcs_path)
 
     print(f"Promo text is: {promo_text}")
+    print(f"image_video: {image_overlay_video}")
+    print(f"final_video: {final_video}")
     try:
         add_text_clips_to_video(image_overlay_video, [promo_text], final_video)
     except:
