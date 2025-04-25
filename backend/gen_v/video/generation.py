@@ -260,17 +260,20 @@ def generate_video_for_item(
     A list of dictionaries containing information about the generated video(s),
       or an empty list if an error occurs during generation for this item.
   """
-  if 'recolored_image_uri' not in item_data:
+  if 'recolored_image_uri' not in item_data and 'resized_image_uri' not in item_data:
     logger.warning(
-        "Skipping item due to missing 'recolored_image_uri': %s", item_data
+        "Skipping item due to missing 'recolored_image_uri' and 'resized_image_uri': %s", item_data
     )
     return []
 
-  recolored_image_uri = item_data['recolored_image_uri']
-  logger.info('Processing item: %s', recolored_image_uri)
+  if 'recolored_image_uri' in item_data:
+    input_image_uri = item_data['recolored_image_uri']
+  else
+    input_image_uri = item_data['resized_image_uri']
+  logger.info('Processing item: %s', input_image_uri)
 
   recolored_image_local_path = storage.download_file_locally(
-      recolored_image_uri
+      input_image_uri
   )
 
   base_prompt_text = settings.selected_prompt_text
@@ -306,7 +309,7 @@ def generate_video_for_item(
 
   veo_request = models.VeoApiRequest(
       prompt=final_prompt,
-      image_uri=recolored_image_uri,
+      image_uri=input_image_uri,
       gcs_uri=output_gcs_uri,
       duration=settings.veo_duration_seconds,
       sample_count=settings.veo_sample_count,
@@ -324,7 +327,7 @@ def generate_video_for_item(
   logging.info(
       'Successfully generated %d video(s) for item: %s',
       len(generated_videos),
-      recolored_image_uri,
+      input_image_uri,
   )
   return generated_videos
 
