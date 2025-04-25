@@ -272,7 +272,7 @@ def generate_video_for_item(
     input_image_uri = item_data['resized_image_uri']
   logger.info('Processing item: %s', input_image_uri)
 
-  recolored_image_local_path = storage.download_file_locally(
+  image_local_path = storage.download_file_locally(
       input_image_uri
   )
 
@@ -284,7 +284,7 @@ def generate_video_for_item(
   elif settings.prompt_type == 'GEMINI':
     gemini_prompt_request = models.GeminiPromptRequest(
         prompt_text=base_prompt_text,
-        image_file_path=recolored_image_local_path,
+        image_file_path=image_local_path,
         model_name=settings.gemini_model_name,
     )
     final_prompt = get_gemini_generated_video_prompt(
