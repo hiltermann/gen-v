@@ -60,8 +60,7 @@ def display_image(
 def overlay_image_on_video(
     input_video: models.VideoInput,
     images: list[models.ImageInput],
-    output_video_path: models.VideoInput,
-    fade_duration: float,
+    output_video_path: models.VideoInput
 ) -> mp.VideoFileClip:
   """Overlays images on a video.
 
@@ -69,7 +68,6 @@ def overlay_image_on_video(
       input_video: A VideoInput object with the input video.
       images: A list of ImageInput objects with the images to overlay.
       output_video_path: A VideoInput object with the output video path.
-      fade_duration: Duration of the fade in effect in seconds.
 
   Returns:
       The modified video clip if successful, or None if an error occurred.
@@ -106,8 +104,8 @@ def overlay_image_on_video(
         .with_position(img.position)
     )
     img_clip = img_clip.with_effects(
-        [mp.vfx.CrossFadeIn(fade_duration)]
-    ).with_effects([mp.vfx.CrossFadeOut(fade_duration)])
+        [mp.vfx.CrossFadeIn(img.fade_duration)]
+    ).with_effects([mp.vfx.CrossFadeOut(img.fade_duration)])
 
     final_clip = mp.CompositeVideoClip(
         [final_clip, img_clip.with_start(img.start)]
@@ -187,8 +185,7 @@ def process_videos_with_overlays_and_text(
     images: list[models.ImageInput],
     overlay_text: models.TextInput,
     overlays_uri: str,
-    final_uri: str,
-    fade_duration: float = 1,
+    final_uri: str
 ) -> None:
   """Processes videos by adding image and text overlays and uploading to gcs.
 
@@ -198,7 +195,6 @@ def process_videos_with_overlays_and_text(
       overlay_text: A `TextInput` object, defining the text overlay.
       overlays_uri: The GCS URI where intermediate overlays will be stored.
       final_uri: The GCS URI where final videos with overlays will be stored.
-      fade_duration: Duration of the fade in effect in seconds.
 
   Returns:
       None.
@@ -223,7 +219,7 @@ def process_videos_with_overlays_and_text(
         path=f"gs://{gcs_image_overlay_video_path}"
     )
 
-    overlay_image_on_video(local_video_file, images, image_overlay_video, fade_duration)
+    overlay_image_on_video(local_video_file, images, image_overlay_video)
 
     promo_text = models.TextInput(
         text=video["promo_text"],
