@@ -148,6 +148,8 @@ class AudioInput(pydantic.BaseModel):
   path: str
   start_time: float = 0.0
   duration: float | None = None
+  fade_duration: float | None = None
+  audio_volume: float | None = None
 
 
 class RGBColor(pydantic.BaseModel):
