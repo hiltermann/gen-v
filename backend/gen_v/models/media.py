@@ -60,7 +60,8 @@ class ImageInput(pydantic.BaseModel):
   start: int
   position: tuple[str | int, str | int] = ('right', 'top')
   duration: float | None = None
-  height: int | None = None
+  height: int | None = None,
+  fade_duration: float | None = None
 
 
 class TextInput(pydantic.BaseModel):
