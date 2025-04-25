@@ -187,7 +187,7 @@ def image_to_video(
 
   """
   request_payload = veo_request.to_api_payload()
-  logger.info('Making image to video request with this payload')
+  logger.info(' Making image to video request with this payload')
   logger.info(request_payload)
 
   try:
@@ -269,7 +269,7 @@ def generate_video_for_item(
   if 'recolored_image_uri' in item_data:
     input_image_uri = item_data['recolored_image_uri']
   else:
-    input_image_uri = item_data['resized_image_uri']
+    input_image_uri = 'gs://' + item_data['resized_image_uri']
   logger.info('Processing item: %s', input_image_uri)
 
   image_local_path = storage.download_file_locally(
