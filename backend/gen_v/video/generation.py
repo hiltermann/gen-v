@@ -268,7 +268,7 @@ def generate_video_for_item(
 
   if 'recolored_image_uri' in item_data:
     input_image_uri = item_data['recolored_image_uri']
-  else
+  else:
     input_image_uri = item_data['resized_image_uri']
   logger.info('Processing item: %s', input_image_uri)
 
