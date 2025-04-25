@@ -54,6 +54,7 @@ class ImageInput(pydantic.BaseModel):
     position: Position of the image on the video.
     duration: Duration of the image overlay in seconds.
     height: Height of the image in pixels.
+    fade_duration: The duration of the fade-in and -out effects.
   """
 
   path: str
