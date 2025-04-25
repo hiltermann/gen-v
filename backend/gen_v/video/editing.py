@@ -243,7 +243,12 @@ def process_videos_with_overlays_and_text(
     final_video = models.VideoInput(path=final_video_gcs_path)
 
     print(f"Promo text is: {promo_text}")
-    add_text_clips_to_video(image_overlay_video, [promo_text], final_video)
+    try:
+        add_text_clips_to_video(image_overlay_video, [promo_text], final_video)
+    except:
+        print("An exception occurred")
+
+      
 
   with concurrent.futures.ThreadPoolExecutor() as executor:
     executor.map(process_video, videos)
