@@ -80,7 +80,7 @@ def overlay_image_on_video(
   # gcs_filename = gcs.get_file_name_from_gcs_url(input_video.path)
   local_video_path = input_video.path
   final_clip = mp.VideoFileClip(local_video_path)
-  fade_duration = 1
+  fade_duration = 0
 
   video_file_name = gcs.get_file_name_from_gcs_url(output_video_path.path)
   local_output_video_path = f"/content/overlay_output_{video_file_name}"
