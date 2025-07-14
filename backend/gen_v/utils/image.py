@@ -275,10 +275,10 @@ def recolor_background_and_upload(
     local_resized_image_path = storage.download_file_locally(resized_image_uri)
     file_name = storage.get_file_name_from_gcs_url(resized_image_uri)
     file_name_without_extension, file_extension = file_name.split('.', 1)
-    # recolored_image_local_path = (
-    #     f'{file_name_without_extension}-recolored-'
-    #     f'{background_color}.{file_extension}'
-    # )
+    recolored_image_local_path = (
+        f'{file_name_without_extension}-recolored-'
+        f'{background_color}.{file_extension}'
+    )
     # replace_background_color(
     #     local_resized_image_path,
     #     target_color,
